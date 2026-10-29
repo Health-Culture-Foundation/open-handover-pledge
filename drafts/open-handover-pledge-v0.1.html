@@ -1,0 +1,180 @@
+<title>The Open Handover Pledge</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: sign-on letter up top, then the protocol as numbered parts (a real sequence: what to hand over, then how to license it) and a license ladder */
+:root{
+  --bg:#f6f8fa; --surface:#ffffff; --fg:#17212b; --muted:#566573; --line:#d8dfe6;
+  --open:#1f6fc5; --tint-open:#e6f0fb; --mid:#8a5a8f; --warn:#a86a00; --tint-warn:#fbf0dc; --closed:#c23a2b; --good:#1d7a4c; --tint-good:#e3f3ea;
+  --display:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
+  --body:"Public Sans",system-ui,-apple-system,Segoe UI,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0f151b; --surface:#17202a; --fg:#e6ecf1; --muted:#9aa8b5; --line:#2a3743;
+  --open:#5aa6ff; --tint-open:#13263b; --mid:#b98cc0; --warn:#e0a63a; --tint-warn:#3a2a12; --closed:#ff6b5e; --good:#4fc488; --tint-good:#15301f; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f151b; --surface:#17202a; --fg:#e6ecf1; --muted:#9aa8b5; --line:#2a3743;
+  --open:#5aa6ff; --tint-open:#13263b; --mid:#b98cc0; --warn:#e0a63a; --tint-warn:#3a2a12; --closed:#ff6b5e; --good:#4fc488; --tint-good:#15301f; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font:16px/1.6 var(--body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:32px 64px}
+.wrap{max-width:980px;margin:0 auto;display:grid;gap:52px}
+.prose{max-width:68ch}
+h1,h2,h3{font-family:var(--display);text-transform:uppercase;letter-spacing:.02em;line-height:1.05;text-wrap:balance;margin:0}
+h1{font-size:clamp(2.2rem,6vw,3.4rem);font-weight:600}
+h2{font-size:clamp(1.5rem,3.4vw,2.1rem);font-weight:600;padding-bottom:10px;border-bottom:1px solid var(--line);margin-bottom:18px}
+h3{font-size:1.15rem;font-weight:700}
+p{margin:0 0 1em}
+a{color:var(--open)}
+.eyebrow{font:500 .75rem/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.lede{font-size:1.12rem;color:var(--muted);max-width:62ch;margin-top:14px}
+.note{font-size:.9rem;color:var(--muted)}
+.letter{background:var(--surface);border:1px solid var(--line);padding:clamp(20px,5vw,44px)}
+.letter ol{padding-left:22px;display:grid;gap:10px}
+.letter ol li::marker{font-family:var(--mono);color:var(--muted)}
+.sign{margin-top:24px;padding-top:14px;border-top:2px dashed var(--line);font-size:.95rem;color:var(--muted)}
+.parts{display:grid;gap:14px;counter-reset:part}
+.part{background:var(--surface);border:1px solid var(--line);display:grid;grid-template-columns:200px minmax(0,1fr)}
+.part header{padding:14px 16px;border-right:1px solid var(--line);display:grid;gap:6px;align-content:start}
+.part header .eyebrow{color:var(--open)}
+.part .body{padding:14px 18px}
+.part ul{margin:0;padding-left:18px;display:grid;gap:6px;font-size:.95rem}
+@media (max-width:700px){.part{grid-template-columns:1fr}.part header{border-right:0;border-bottom:1px solid var(--line)}}
+.ladder{display:grid;gap:10px}
+.rung{display:grid;grid-template-columns:120px minmax(0,1fr);border:1px solid var(--line);background:var(--surface)}
+.rung .lvl{padding:12px 14px;font:600 1.1rem/1.1 var(--display);text-transform:uppercase;letter-spacing:.03em;border-right:4px solid var(--c);background:var(--t)}
+.rung .lvl span{display:block;font:500 .7rem/1.4 var(--mono);letter-spacing:.05em;color:var(--muted);margin-top:4px}
+.rung .d{padding:12px 16px;font-size:.95rem}
+.rung .d p{margin:0 0 .4em}
+@media (max-width:560px){.rung{grid-template-columns:1fr}.rung .lvl{border-right:0;border-top:4px solid var(--c)}}
+pre{white-space:pre-wrap;font:400 .88rem/1.55 var(--mono);background:var(--surface);border:1px solid var(--line);padding:14px 16px;margin:0;overflow-x:auto}
+.names{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px}
+.names h3{font-size:1rem;color:var(--muted);margin-bottom:6px}
+.names ol{margin:0;padding-left:20px;display:grid;gap:4px}
+.pick{margin-top:18px;padding:14px 18px;background:var(--tint-open);border-left:3px solid var(--open)}
+.checks{padding-left:0;list-style:none;display:grid;gap:8px}
+.checks li::before{content:"☐ ";color:var(--muted)}
+.tbl{overflow-x:auto;border:1px solid var(--line);background:var(--surface)}
+.tbl table{border-collapse:collapse;width:100%;min-width:620px;font-size:.92rem}
+.tbl th,.tbl td{text-align:left;vertical-align:top;padding:8px 12px;border-bottom:1px solid var(--line)}
+.tbl thead th{font:600 .72rem/1.4 var(--body);text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.tbl tbody tr:last-child>*{border-bottom:0}
+</style>
+
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">Health Culture Foundation · Companion to the Open Health Communication Declaration · Draft v0.1 · 22 Oct 2026</div>
+  <h1>The Open Handover Pledge</h1>
+  <p class="lede">A sign-on letter for agencies, studios and freelancers who make public health campaigns, with a draft protocol for handing over editable files, test data and clear licenses. Written to be improved by the agencies who sign it.</p>
+</header>
+
+<section>
+  <h2>The letter</h2>
+  <div class="letter prose" style="max-width:none">
+    <p>Public health campaigns are paid for to change what people do. Too often, when the contract ends, all the client keeps is a folder of finished files: a flattened poster, a final video, a PDF. The layered design files, the script with its sources, the versions that were tested and the results are left behind at the agency. The next health department that wants to reuse the campaign, translate it or fix one line has to start over.</p>
+    <p>We are agencies, studios and freelancers who make health communication. We believe the work should outlive the contract. When a client pays for a public health campaign, we commit to:</p>
+    <ol>
+      <li><b>Hand over the source,</b> not just the finished assets: editable design, video and audio project files, the copy with its citations, and every language version.</li>
+      <li><b>Hand over what we learned:</b> the versions we tested, how we tested them, and the results, with personal data removed.</li>
+      <li><b>Default to open.</b> Offer an open license for work made for public health clients, and build campaigns from ingredients that allow it: openly licensed fonts, music and images, and talent releases that permit reuse.</li>
+      <li><b>When open isn't possible, make the license clear.</b> Every asset ships with a record of who owns it, what others may do with it, and when any rights expire. Nothing leaves our studio with unknown rights.</li>
+      <li><b>Improve this standard together.</b> The protocol below is a first draft. We'll test it on real projects, report what doesn't work, and publish each new version.</li>
+    </ol>
+    <p>We ask public health clients to write handover and licensing into their contracts and budgets, because open files take time to prepare and that time should be paid for.</p>
+    <div class="sign">Signature block: agency or freelancer name, website, contact, and one project you'll hand over under this protocol in the next 12 months. Clients can co-sign. Not built yet.</div>
+  </div>
+</section>
+
+<section>
+  <h2>Handover protocol v0.1</h2>
+  <p class="prose note">What to deliver at the end of a public health project. Draft for agencies to test and improve; not legal advice.</p>
+  <div class="parts">
+    <article class="part"><header><span class="eyebrow">Part 1</span><h3>Source files</h3></header><div class="body"><ul>
+      <li>Layered design files in their native format (for example Figma, Adobe, Canva), plus a copy in an open or widely readable format where one exists (SVG, PDF with layers, IDML).</li>
+      <li>Video and audio project files, with the raw footage or stems needed to re-edit, or a note where size makes that impractical.</li>
+      <li>A plain-text copy deck: every line of copy, its sources, and its alt text and captions.</li>
+      <li>An unbranded version (logos removed) so partners can add their own.</li>
+      <li>All language versions, with translator credits.</li>
+    </ul></div></article>
+    <article class="part"><header><span class="eyebrow">Part 2</span><h3>Test and results data</h3></header><div class="body"><ul>
+      <li>The campaign plan: audience, intended action, success measure (see the declaration's commitment 3).</li>
+      <li>Every version tested, the test method, sample, and results, as a spreadsheet anyone can open.</li>
+      <li>Media and outcome results, aggregated with personal data removed, including what didn't work.</li>
+    </ul></div></article>
+    <article class="part"><header><span class="eyebrow">Part 3</span><h3>Rights record</h3></header><div class="body"><ul>
+      <li>One row per asset and per third-party ingredient (font, photo, illustration, music, voice, actor, footage).</li>
+      <li>For each: owner, license, link to the license, what reuse is allowed, territory, and the date any right expires.</li>
+      <li>Talent and model releases: what they permit, for how long, and whether partner organizations can reuse.</li>
+      <li>Delivered as a CSV next to the files, and summarized in a README.</li>
+    </ul></div></article>
+    <article class="part"><header><span class="eyebrow">Part 4</span><h3>License</h3></header><div class="body"><ul>
+      <li>Every package states its level on the license ladder below, in the README and in each file's metadata where possible.</li>
+      <li>Where the client agrees, deposit the package openly with a permanent ID (for example on Zenodo) so others can find and cite it.</li>
+    </ul></div></article>
+  </div>
+</section>
+
+<section>
+  <h2>License ladder</h2>
+  <p class="prose note">Aim for the top. Every package lands on one rung; "unclear" is never an option.</p>
+  <div class="ladder">
+    <div class="rung" style="--c:var(--good);--t:var(--tint-good)"><div class="lvl">Open<span>Default</span></div><div class="d"><p>The whole package under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> (or CC0). Anyone can reuse, adapt and translate with credit. Built only from ingredients that allow this.</p></div></div>
+    <div class="rung" style="--c:var(--open);--t:var(--tint-open)"><div class="lvl">Open, with exceptions<span>Common</span></div><div class="d"><p>CC BY 4.0 for everything the agency or client owns; named exceptions (a licensed photo, a celebrity voice) listed in the rights record with their own terms, and ideally swappable.</p></div></div>
+    <div class="rung" style="--c:var(--warn);--t:var(--tint-warn)"><div class="lvl">Clear, restricted<span>When open isn't possible</span></div><div class="d"><p>A written license that says exactly who may reuse it (for example any public health agency or nonprofit), for what, where, and until when. Non-commercial Creative Commons licenses (CC BY-NC) fit here.</p></div></div>
+    <div class="rung" style="--c:var(--closed);--t:var(--bg)"><div class="lvl">Unclear<span>Not allowed</span></div><div class="d"><p>No license stated, or rights nobody can find. This is what the pledge exists to end.</p></div></div>
+  </div>
+</section>
+
+<section>
+  <h2>Choosing reusable ingredients</h2>
+  <div class="tbl"><table>
+    <thead><tr><th scope="col">Ingredient</th><th scope="col">Prefer</th><th scope="col">Watch for</th></tr></thead>
+    <tbody>
+      <tr><td>Fonts</td><td>Fonts under the SIL Open Font License (most Google Fonts)</td><td>Desktop licenses that don't let clients or partners edit the files</td></tr>
+      <tr><td>Photos and illustration</td><td>Commissioned work licensed to the client to sublicense; CC BY or public-domain images (many US government images)</td><td>Stock licenses that forbid redistribution of editable files</td></tr>
+      <tr><td>Music and sound</td><td>Commissioned or CC-licensed tracks with stems</td><td>Library music with per-use or time-limited licenses</td></tr>
+      <tr><td>People on camera and voice</td><td>Releases that cover reuse by partner organizations, with a clear term</td><td>Union or talent agreements with short usage periods; record expiry dates</td></tr>
+      <tr><td>Data and charts</td><td>Open datasets with citations; chart source files</td><td>Charts pasted as images with no data behind them</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section class="prose">
+  <h2>Model contract clause (draft)</h2>
+  <p class="note">For public health clients to adapt. Have your own counsel review it.</p>
+  <pre>Deliverables. At project close, Contractor will deliver the Handover Package described in the Open Handover Protocol (version 0.1 or later): editable source files, a plain-text copy deck with sources, test plans and anonymized results, and a rights record listing every asset and third-party element with its license and any expiry date.
+
+License. Unless an exception is listed in the rights record, Contractor licenses all deliverables to Client and to the public under the Creative Commons Attribution 4.0 International License (CC BY 4.0). Contractor will not include third-party elements whose license prevents this without Client's written approval, and will offer an open alternative where one exists.
+
+Time. The Handover Package is part of the project scope and budget.</pre>
+</section>
+
+<section class="prose">
+  <h2>How the standard improves</h2>
+  <p>Version 0.1 is a starting point from the Health Culture Foundation. We'll invite agencies that work in public health to test it on a live project, then meet to revise it. Each version is published with a change log and credits for the agencies that shaped it, under CC BY 4.0, so any client or agency can adopt it.</p>
+</section>
+
+<section class="prose">
+  <h2>What to call it</h2>
+  <div class="names">
+    <div><h3>Action</h3><ol><li>The Open Handover Pledge</li><li>Hand Over the Source</li></ol></div>
+    <div><h3>Standard</h3><ol><li>Open Campaign Files Standard</li><li>Public Health Handover Protocol</li></ol></div>
+    <div><h3>Tied to the declaration</h3><ol><li>Open Health Communication: Agency Pledge</li></ol></div>
+  </div>
+  <p class="pick"><b>Recommendation: "The Open Handover Pledge" for the letter, "Handover Protocol" for the standard.</b> "Handover" names the moment agencies already recognize, the end of a project when files change hands, and the pledge changes what happens in that moment. It's plain enough for a client to put in a contract.</p>
+</section>
+
+<section class="prose">
+  <h2>Open questions</h2>
+  <ul class="checks">
+    <li>Pick the name</li>
+    <li>Recruit 3–5 agencies that work in public health to test v0.1 on a real project</li>
+    <li>Legal review of the model clause and the talent-release guidance</li>
+    <li>Should signers commit to the Open rung by default, or only to never shipping "unclear"?</li>
+    <li>Build the signing form and public signer list (shared with the declaration)</li>
+  </ul>
+</section>
+
+</div>
